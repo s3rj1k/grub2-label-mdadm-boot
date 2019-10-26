@@ -1,0 +1,56 @@
+#!/bin/sh
+cat <<EOF
+if [ "${GRUB_DEFAULT}" = "" ]; then
+  set default="0"
+else
+  set default="${GRUB_DEFAULT}"
+fi
+
+set timeout_style=menu
+
+if [ "${GRUB_TIMEOUT}" = "" ]; then
+  set timeout="5"
+else
+  set timeout="${GRUB_TIMEOUT}"
+fi
+
+menuentry '${GRUB_DISTRIBUTOR}' --class gnu-linux --class gnu --class os {
+  insmod gzio
+  insmod part_gpt
+  insmod diskfilter
+  insmod mdraid1x
+  insmod ext2
+  linux /boot/vmlinuz root=LABEL=root ro ${GRUB_CMDLINE_LINUX}
+  initrd /boot/initrd.img
+}
+
+menuentry '${GRUB_DISTRIBUTOR} (recovery mode)' --class gnu-linux --class gnu --class os {
+  insmod gzio
+  insmod part_gpt
+  insmod diskfilter
+  insmod mdraid1x
+  insmod ext2
+  linux /boot/vmlinuz root=LABEL=root ro recovery nomodeset ${GRUB_CMDLINE_LINUX}
+  initrd /boot/initrd.img
+}
+
+menuentry '${GRUB_DISTRIBUTOR}, previous kernel' --class gnu-linux --class gnu --class os {
+  insmod gzio
+  insmod part_gpt
+  insmod diskfilter
+  insmod mdraid1x
+  insmod ext2
+  linux /boot/vmlinuz.old root=LABEL=root ro ${GRUB_CMDLINE_LINUX}
+  initrd /boot/initrd.img.old
+}
+
+menuentry '${GRUB_DISTRIBUTOR}, previous kernel (recovery mode)' --class gnu-linux --class gnu --class os {
+  insmod gzio
+  insmod part_gpt
+  insmod diskfilter
+  insmod mdraid1x
+  insmod ext2
+  linux /boot/vmlinuz.old root=LABEL=root ro recovery nomodeset ${GRUB_CMDLINE_LINUX}
+  initrd /boot/initrd.img.old
+}
+EOF
