@@ -1,8 +1,8 @@
 ### Disk partitioning example:
 ```
 parted -s -a optimal /dev/sda mklabel gpt
-parted -s -a optimal /dev/sda mkpart primary 0 1MiB set 1 bios_grub on
-parted -s -a optimal /dev/sda mkpart primary ext4 1MiB 50GiB set 2 raid on
+parted -s -a optimal /dev/sda mkpart primary 2048s 4095s set 1 bios_grub on
+parted -s -a optimal /dev/sda mkpart primary ext4 4096s 50GiB set 2 raid on
 ```
 
 ```
@@ -10,7 +10,7 @@ $ sgdisk -p /dev/sda
 ...
 Number  Start (sector)    End (sector)  Size       Code  Name
    1            2048            4095   1024.0 KiB  EF02  boot
-   2            4096        39065599   50.0 GiB    FD00  root
+   2            4096       104857599   50.0 GiB    FD00  root
 ...
 
 $ blkid
