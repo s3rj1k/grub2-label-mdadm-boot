@@ -34,6 +34,9 @@ update-grub
 # opt: remove ssh keys
 # /usr/bin/find /etc/ssh -type f -name "ssh_host_*" -delete
 
+# opt: generate new ssh keys
+# ssh-keygen -A
+
 # opt: clean tmp files
 # rm -rf /tmp/* /var/tmp/*
 
