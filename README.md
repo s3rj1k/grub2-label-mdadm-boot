@@ -30,4 +30,7 @@ chmod +x /etc/grub.d/10_label
 ```
 update-initramfs -u
 update-grub
+
+# optionally remove ssh keys
+# /usr/bin/find /etc/ssh -type f -name "ssh_host_*" -delete
 ```
