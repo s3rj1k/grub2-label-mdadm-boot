@@ -23,6 +23,7 @@ mdadm --assemble /dev/md/0 --homehost=any --name=root --update=name /dev/sda2
 ```
 chmod -x /etc/grub.d/*
 chmod +x /etc/grub.d/05_debian_theme
+chmod +x /etc/grub.d/10_label
 ```
 
 ### After replacing configs:
