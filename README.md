@@ -68,15 +68,31 @@ update-grub
 
 ### Create image in Live media environment:
 ```
-fsarchiver savefs /mnt/image.fsa /dev/md127
+fsarchiver savefs /mnt/image.fsa /dev/md0
 ```
 
 ### Restore image in Live media environment:
 ```
-fsarchiver restfs /mnt/image.fsa id=0,dest=/dev/md127
+fsarchiver restfs /mnt/image.fsa id=0,dest=/dev/md0
 ```
 
-### Install grub2 boot record:
+### Install grub2 boot record in chroot:
 ```
+umount -l /mnt
+mount /dev/md0 /mnt
+
+mkdir -p /mnt/proc
+mkdir -p /mnt/dev
+mkdir -p /mnt/sys
+mkdir -p /mnt/var/run/dbus
+
+mount -t proc none /mnt/proc
+mount -o bind /dev /mnt/dev
+mount -o bind /dev/pts /mnt/dev/pts
+mount -o bind /sys /mnt/sys
+mount -o bind /var/run/dbus /mnt/var/run/dbus
+
+chroot /mnt /usr/bin/env -i HOME=/root TERM="$TERM" PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" /bin/bash --login
+
 grub-install /dev/sda --recheck
 ```
