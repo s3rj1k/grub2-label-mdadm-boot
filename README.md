@@ -1,10 +1,16 @@
-### Disk partitioning:
+### Disk partitioning example:
+```
+parted -s -a optimal /dev/sda mklabel gpt
+parted -s -a optimal /dev/sda mkpart primary 0 1MiB set 1 bios_grub on
+parted -s -a optimal /dev/sda mkpart primary ext4 1MiB 50GiB set 2 raid on
+```
+
 ```
 $ sgdisk -p /dev/sda
 ...
 Number  Start (sector)    End (sector)  Size       Code  Name
    1            2048            4095   1024.0 KiB  EF02  boot
-   2            4096        39065599   20.0 GiB    FD00  root
+   2            4096        39065599   50.0 GiB    FD00  root
 ...
 
 $ blkid
@@ -14,9 +20,15 @@ $ blkid
 
 ```
 
-### Assemble RAID1 (before install):
+### Create and/or Assemble RAID1 (before install):
 ```
+mdadm --create --run --force /dev/md/0 --level=1 --raid-devices=2 --homehost=any --name=root /dev/sda2 missing
 mdadm --assemble /dev/md/0 --homehost=any --name=root --update=name /dev/sda2
+```
+
+### Create ext4 partition (SSD):
+```
+mkfs.ext4 -FF -L root -E discard /dev/md/0
 ```
 
 ### Disable 'grub.d' files:
