@@ -28,9 +28,25 @@ chmod +x /etc/grub.d/10_label
 
 ### After replacing configs:
 ```
-update-initramfs -u
+update-initramfs -u -k all
 update-grub
 
-# optionally remove ssh keys
+# opt: remove ssh keys
 # /usr/bin/find /etc/ssh -type f -name "ssh_host_*" -delete
+
+# opt: clean tmp files
+# rm -rf /tmp/* /var/tmp/*
+
+# opt: clean log files
+# find /var/log -type f -exec truncate -s 0 {} \;
+# find /var/log -type f -name *.gz -exec rm -vf {} \;
+
+# opt: clean apt cache
+# apt-get clean
+
+# opt: remove machine id
+# rm -f /var/lib/dbus/machine-id
+
+# opt: clean dhcp leases
+# rm -f /var/lib/dhcp/dhclient.leases
 ```
