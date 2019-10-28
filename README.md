@@ -65,3 +65,18 @@ update-grub
 # opt: clean dhcp leases
 # rm -f /var/lib/dhcp/dhclient.leases
 ```
+
+### Create image in Live media environment:
+```
+fsarchiver savefs /mnt/image.fsa /dev/md127
+```
+
+### Restore image in Live media environment:
+```
+fsarchiver restfs /mnt/image.fsa id=0,dest=/dev/md127
+```
+
+### Install grub2 boot record:
+```
+grub-install /dev/sda --recheck
+```
